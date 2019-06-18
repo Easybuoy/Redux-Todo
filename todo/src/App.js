@@ -19,53 +19,6 @@ if (localStorage.getItem("tasks") === null) {
 }
 
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
-  constructor() {
-    super();
-    this.state = {
-      tasks: this.getTasks(),
-      task: ""
-    };
-  }
-
-  getTasks = () => {
-    return JSON.parse(localStorage.getItem("tasks"));
-  };
-
-  addTodo = () => {
-    if (this.state.task.length === 0) {
-      return;
-    }
-    // const newTask = {
-    //   id: Date.now(),
-    //   task: this.state.task,
-    //   completed: false
-    // };
-    // const newStateTasks = this.state.tasks.concat(newTask);
-    // this.setDataToLocalStorage(newStateTasks);
-    // this.setState({ tasks: newStateTasks, task: "" });
-  };
-
-  setDataToLocalStorage = data => {
-    localStorage.setItem("tasks", JSON.stringify(data));
-  };
-
-  search = e => {
-    this.setState({ tasks: this.getTasks() }, () => {});
-
-    const searchValue = e.target.value;
-    if (searchValue.length > 0) {
-      let newState = this.state.tasks.filter(task => {
-        if (task.task.includes(searchValue)) {
-          return task;
-        }
-      });
-      this.setState({ tasks: newState });
-    }
-  };
-
   render() {
     return (
       <Provider store={store}>
@@ -93,15 +46,12 @@ class App extends React.Component {
               </div>
             </div>
 
-            <Search search={this.search} />
+            <Search />
           </div>
 
           <h2>Welcome to your Todo App!</h2>
 
-          <TodoForm
-            task={this.state.task}
-            clearCompleted={this.clearCompleted}
-          />
+          <TodoForm />
           <TodoList />
         </div>
       </Provider>

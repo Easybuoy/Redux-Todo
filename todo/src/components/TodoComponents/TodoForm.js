@@ -14,6 +14,15 @@ class TodoForm extends Component {
     this.props.getTodos();
   }
 
+  addTodo = () => {
+    if (this.state.task.length === 0) {
+      return;
+    }
+
+    this.props.addTodo(this.state.task);
+    this.setState({ task: "" });
+  };
+
   onChange = e => {
     this.setState({ task: e.target.value });
   };
@@ -21,11 +30,12 @@ class TodoForm extends Component {
   keyUp = e => {
     if (e.key === "Enter") {
       this.props.addTodo(this.state.task);
+      this.setState({ task: "" });
     }
   };
 
   render() {
-    const { addTodo, clearCompleted } = this.props;
+    const { clearCompleted } = this.props;
 
     return (
       <div className="todoForm">
@@ -36,13 +46,7 @@ class TodoForm extends Component {
           onChange={this.onChange}
           onKeyUp={this.keyUp}
         />
-        <button
-          onClick={() => {
-            addTodo(this.state.task);
-          }}
-        >
-          Add Todo
-        </button>
+        <button onClick={this.addTodo}>Add Todo</button>
         <button onClick={clearCompleted}>Clear Completed</button>
       </div>
     );

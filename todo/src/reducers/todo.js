@@ -2,20 +2,19 @@ import {
   GET_TODOS,
   ADD_TODO,
   CLEAR_COMPLETED,
-  TOGGLE_COMPLETED
+  TOGGLE_COMPLETED,
+  SEARCH_TODO
 } from "../actions/types";
 
 const INITIAL_STATE = {
-  todo: []
+  todo: JSON.parse(localStorage.getItem("tasks"))
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_TODOS:
-      return {
-        ...state,
-        todo: action.payload
-      };
+      return INITIAL_STATE;
+
     case ADD_TODO:
       localStorage.setItem(
         "tasks",
@@ -47,6 +46,18 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todo: newTodo
+      };
+    case SEARCH_TODO:
+      let filteredTodo = state.todo.filter(task => {
+        if (task.task.includes(action.payload)) {
+          return task;
+        }
+        return null;
+      });
+      console.log(filteredTodo);
+      return {
+        ...state,
+        todo: filteredTodo
       };
     default:
       return state;

@@ -2,13 +2,13 @@ import {
   GET_TODOS,
   ADD_TODO,
   CLEAR_COMPLETED,
-  TOGGLE_COMPLETED
+  TOGGLE_COMPLETED,
+  SEARCH_TODO
 } from "./types";
 
 export const getTodos = () => {
   return {
-    type: GET_TODOS,
-    payload: JSON.parse(localStorage.getItem("tasks"))
+    type: GET_TODOS
   };
 };
 
@@ -35,5 +35,19 @@ export const toggleCompleted = id => {
   return {
     type: TOGGLE_COMPLETED,
     payload: id
+  };
+};
+
+export const search = e => {
+  const searchValue = e.target.value;
+  if (searchValue.length > 0) {
+    return {
+      type: SEARCH_TODO,
+      payload: searchValue
+    };
+  }
+
+  return {
+    type: GET_TODOS
   };
 };
