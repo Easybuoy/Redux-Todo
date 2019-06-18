@@ -1,8 +1,17 @@
 import React from "react";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import combinedReducer from "./reducers";
+
 import TodoForm from "./components/TodoComponents/TodoForm";
 import TodoList from "./components/TodoComponents/TodoList";
 import Search from "./components/SearchComponent/Search";
 import "./App.css";
+
+const store = createStore(
+  combinedReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 // Set Task In LocalStorage
 if (localStorage.getItem("tasks") === null) {
@@ -25,22 +34,18 @@ class App extends React.Component {
     return JSON.parse(localStorage.getItem("tasks"));
   };
 
-  onChange = e => {
-    this.setState({ task: e.target.value });
-  };
-
   addTodo = () => {
     if (this.state.task.length === 0) {
       return;
     }
-    const newTask = {
-      id: Date.now(),
-      task: this.state.task,
-      completed: false
-    };
-    const newStateTasks = this.state.tasks.concat(newTask);
-    this.setDataToLocalStorage(newStateTasks);
-    this.setState({ tasks: newStateTasks, task: "" });
+    // const newTask = {
+    //   id: Date.now(),
+    //   task: this.state.task,
+    //   completed: false
+    // };
+    // const newStateTasks = this.state.tasks.concat(newTask);
+    // this.setDataToLocalStorage(newStateTasks);
+    // this.setState({ tasks: newStateTasks, task: "" });
   };
 
   setDataToLocalStorage = data => {
@@ -69,12 +74,6 @@ class App extends React.Component {
     this.setState({ tasks: unCompletedTasks });
   };
 
-  keyUp = e => {
-    if (e.key === "Enter") {
-      this.addTodo();
-    }
-  };
-
   search = e => {
     this.setState({ tasks: this.getTasks() }, () => {});
 
@@ -91,47 +90,43 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        <div className="topSection">
-          <div className="infoDiv">
-            <div className="info">
-              <p
-                className="infoBox"
-                style={{
-                  backgroundColor: "green"
-                }}
-              />
-              <p>Completed</p>
+      <Provider store={store}>
+        <div className="app">
+          <div className="topSection">
+            <div className="infoDiv">
+              <div className="info">
+                <p
+                  className="infoBox"
+                  style={{
+                    backgroundColor: "green"
+                  }}
+                />
+                <p>Completed</p>
+              </div>
+
+              <div className="info">
+                <p
+                  className="infoBox"
+                  style={{
+                    backgroundColor: "#99621e"
+                  }}
+                />
+                <p>UnCompleted</p>
+              </div>
             </div>
 
-            <div className="info">
-              <p
-                className="infoBox"
-                style={{
-                  backgroundColor: "#99621e"
-                }}
-              />
-              <p>UnCompleted</p>
-            </div>
+            <Search search={this.search} />
           </div>
 
-          <Search search={this.search}/>
+          <h2>Welcome to your Todo App!</h2>
+
+          <TodoForm
+            task={this.state.task}
+            clearCompleted={this.clearCompleted}
+          />
+          <TodoList />
         </div>
-
-        <h2>Welcome to your Todo App!</h2>
-
-        <TodoForm
-          onChange={this.onChange}
-          addTodo={this.addTodo}
-          task={this.state.task}
-          clearCompleted={this.clearCompleted}
-          keyUp={this.keyUp}
-        />
-        <TodoList
-          tasks={this.state.tasks}
-          toggleCompleted={this.toggleCompleted}
-        />
-      </div>
+      </Provider>
     );
   }
 }
