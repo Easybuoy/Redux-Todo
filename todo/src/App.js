@@ -52,28 +52,6 @@ class App extends React.Component {
     localStorage.setItem("tasks", JSON.stringify(data));
   };
 
-  toggleCompleted = id => {
-    const { tasks } = this.state;
-
-    tasks.find(task => {
-      if (task.id === id) {
-        task.completed = !task.completed ? true : false;
-        return task;
-      }
-    });
-
-    this.setDataToLocalStorage(tasks);
-    this.setState({ tasks: tasks });
-  };
-
-  clearCompleted = () => {
-    const { tasks } = this.state;
-    let unCompletedTasks = tasks.filter(task => task.completed !== true);
-
-    this.setDataToLocalStorage(unCompletedTasks);
-    this.setState({ tasks: unCompletedTasks });
-  };
-
   search = e => {
     this.setState({ tasks: this.getTasks() }, () => {});
 

@@ -1,4 +1,9 @@
-import { GET_TODOS, ADD_TODO } from "./types";
+import {
+  GET_TODOS,
+  ADD_TODO,
+  CLEAR_COMPLETED,
+  TOGGLE_COMPLETED
+} from "./types";
 
 export const getTodos = () => {
   return {
@@ -13,11 +18,22 @@ export const addTodo = task => {
     task,
     completed: false
   };
-  // const newStateTasks = this.state.tasks.concat(newTask);
-  // this.setDataToLocalStorage(newStateTasks);
 
   return {
     type: ADD_TODO,
     payload: newTask
+  };
+};
+
+export const clearCompleted = () => {
+  return {
+    type: CLEAR_COMPLETED
+  };
+};
+
+export const toggleCompleted = id => {
+  return {
+    type: TOGGLE_COMPLETED,
+    payload: id
   };
 };

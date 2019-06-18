@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTodo, getTodos } from "../../actions/todo";
+import { addTodo, getTodos, clearCompleted } from "../../actions/todo";
 import "./Todo.css";
 
 class TodoForm extends Component {
@@ -55,5 +55,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addTodo, getTodos }
+  { addTodo, getTodos, clearCompleted }
 )(TodoForm);

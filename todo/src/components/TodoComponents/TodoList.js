@@ -11,7 +11,7 @@ function TodoList(props) {
   return (
     <div>
       {todo.map(task => {
-        return <Todo key={task.id} task={task} toggleCompleted="a" />;
+        return <Todo key={task.id} task={task} />;
       })}
     </div>
   );

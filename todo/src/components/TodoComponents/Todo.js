@@ -1,6 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default function Todo({ task, toggleCompleted }) {
+import { toggleCompleted } from "../../actions/todo";
+
+function Todo(props) {
+  const { task, toggleCompleted } = props;
+
   const todoStyle = {
     cursor: "pointer",
     textDecoration: task.completed ? "line-through" : "none",
@@ -20,3 +25,12 @@ export default function Todo({ task, toggleCompleted }) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  todo: state.todo
+});
+
+export default connect(
+  mapStateToProps,
+  { toggleCompleted }
+)(Todo);
